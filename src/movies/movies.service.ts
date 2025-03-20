@@ -13,7 +13,7 @@ export class MoviesService {
     ) {}
 
     async create(createMovieDto: CreateMovieDto): Promise<Movie> {
-        const existing = await this.movieRepository.findOne({ where: { title: createMovieDto.title } });
+        const existing = await this.movieRepository.findOneBy({ title: createMovieDto.title });
         if (existing) {
             throw new ConflictException(`Movie with title ${createMovieDto.title} already exists`);
         }
