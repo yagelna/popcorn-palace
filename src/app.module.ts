@@ -7,6 +7,8 @@ import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/entities/movie.entity';
 import { ShowtimesModule } from './showtimes/showtimes.module';
 import { Showtime } from './showtimes/entities/showtime.entity';
+import { BookingsModule } from './bookings/bookings.module';
+import { Booking } from './bookings/entities/booking.entity';
 
 @Module({
   imports: [
@@ -23,13 +25,14 @@ import { Showtime } from './showtimes/entities/showtime.entity';
         username: config.get('DB_USER'),
         password: config.get('DB_PASS'),
         database: config.get('DB_NAME'),
-        entities: [Movie, Showtime],
+        entities: [Movie, Showtime, Booking],
         synchronize: true,
         logging: true, //  production: false
       }),
     }),
     MoviesModule,
     ShowtimesModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
