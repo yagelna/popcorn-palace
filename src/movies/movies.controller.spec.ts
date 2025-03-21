@@ -8,6 +8,7 @@ import { NotFoundException, ConflictException } from '@nestjs/common';
 describe('MoviesController', () => {
   let controller: MoviesController;
   let service: MoviesService;
+  let mockMovie: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,50 +28,51 @@ describe('MoviesController', () => {
 
     controller = module.get<MoviesController>(MoviesController);
     service = module.get<MoviesService>(MoviesService);
+
+    mockMovie = {
+      id: 1,
+      title: 'Movie Title',
+      genre: 'Action',
+      duration: 120,
+      rating: 8.5,
+      releaseYear: 2025,
+    };
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
   });
 
   describe('create', () => {
     it('should create a movie', async () => {
-      const createDto: CreateMovieDto = {
-        title: 'Movie Title',
-        genre: 'Action',
-        duration: 120,
-        rating: 8.5,
-        releaseYear: 2025,
-      };
-      const createdMovie = { id: 1, ...createDto };
-      jest.spyOn(service, 'create').mockResolvedValue(createdMovie);
+      jest.spyOn(service, 'create').mockResolvedValue(mockMovie);
+      const result = await controller.create(mockMovie);
+      expect(result).toEqual(mockMovie);
+    });
 
-      const result = await controller.create(createDto);
-      expect(result).toEqual(createdMovie);
+    it('should throw ConflictException if movie already exists', async () => {
+      jest.spyOn(service, 'create').mockRejectedValue(new ConflictException());
+      await expect(controller.create(mockMovie)).rejects.toThrow(ConflictException);
     });
   });
 
   describe('findAll', () => {
     it('should return all movies', async () => {
-      const movies = [
-        { id: 1, title: 'Movie 1', genre: 'Action', duration: 120, rating: 8.5, releaseYear: 2025 },
-        { id: 2, title: 'Movie 2', genre: 'Comedy', duration: 90, rating: 7.5, releaseYear: 2023 },
-      ];
-      jest.spyOn(service, 'findAll').mockResolvedValue(movies);
-
+      jest.spyOn(service, 'findAll').mockResolvedValue([mockMovie]);
       const result = await controller.findAll();
-      expect(result).toEqual(movies);
+      expect(result).toEqual([mockMovie]);
     });
   });
 
   describe('update', () => {
     it('should update a movie', async () => {
-      const updateDto: UpdateMovieDto = { genre: 'Drama' };
       jest.spyOn(service, 'update').mockResolvedValue();
-
-      await expect(controller.update('Movie Title', updateDto)).resolves.not.toThrow();
-      expect(service.update).toHaveBeenCalledWith('Movie Title', updateDto);
+      await expect(controller.update(mockMovie.title, { genre: 'Drama' })).resolves.not.toThrow();
+      expect(service.update).toHaveBeenCalledWith(mockMovie.title, { genre: 'Drama' });
     });
 
     it('should throw NotFoundException when updating a non-existent movie', async () => {
       jest.spyOn(service, 'update').mockRejectedValue(new NotFoundException());
-
       await expect(controller.update('Nonexistent Movie', {})).rejects.toThrow(NotFoundException);
     });
   });
@@ -78,14 +80,12 @@ describe('MoviesController', () => {
   describe('remove', () => {
     it('should delete a movie', async () => {
       jest.spyOn(service, 'remove').mockResolvedValue();
-
-      await expect(controller.remove('Movie Title')).resolves.not.toThrow();
-      expect(service.remove).toHaveBeenCalledWith('Movie Title');
+      await expect(controller.remove(mockMovie.title)).resolves.not.toThrow();
+      expect(service.remove).toHaveBeenCalledWith(mockMovie.title);
     });
 
     it('should throw NotFoundException when deleting a non-existent movie', async () => {
       jest.spyOn(service, 'remove').mockRejectedValue(new NotFoundException());
-
       await expect(controller.remove('Nonexistent Movie')).rejects.toThrow(NotFoundException);
     });
   });
