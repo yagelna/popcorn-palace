@@ -4,8 +4,6 @@ import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 
 describe('MoviesService', () => {
   let service: MoviesService;
