@@ -11,6 +11,7 @@ describe('MoviesService', () => {
   let service: MoviesService;
   let repository: Repository<Movie>;
   let mockMovie: Movie;
+  let anotherMockMovie: Movie;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,12 +35,22 @@ describe('MoviesService', () => {
 
     mockMovie = {
       id: 1,
-      title: 'Movie Title',
+      title: 'Test Movie',
       genre: 'Action',
       duration: 120,
       rating: 8.5,
       releaseYear: 2025,
     } as Movie;
+
+    anotherMockMovie = { // for testing findAll
+      id: 2,
+      title: 'Another Movie',
+      genre: 'Comedy',
+      duration: 90,
+      rating: 7.5,
+      releaseYear: 2025,
+    } as Movie;
+
   });
 
   it('should be defined', () => {
@@ -71,9 +82,9 @@ describe('MoviesService', () => {
 
   describe('findAll', () => {
     it('should return an array of movies', async () => {
-      jest.spyOn(repository, 'find').mockResolvedValue([mockMovie]);
+      jest.spyOn(repository, 'find').mockResolvedValue([mockMovie, anotherMockMovie]);
       const result = await service.findAll();
-      expect(result).toEqual([mockMovie]);
+      expect(result).toEqual([mockMovie, anotherMockMovie]);
     });
 
     it('should return an empty array if no movies exist', async () => {

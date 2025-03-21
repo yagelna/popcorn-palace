@@ -1,14 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MoviesController } from './movies.controller';
 import { MoviesService } from './movies.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
 import { NotFoundException, ConflictException } from '@nestjs/common';
 
 describe('MoviesController', () => {
   let controller: MoviesController;
   let service: MoviesService;
   let mockMovie: any;
+  let anotherMockMovie: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,10 +30,19 @@ describe('MoviesController', () => {
 
     mockMovie = {
       id: 1,
-      title: 'Movie Title',
+      title: 'Test Movie',
       genre: 'Action',
       duration: 120,
       rating: 8.5,
+      releaseYear: 2025,
+    };
+
+    anotherMockMovie = {
+      id: 2,
+      title: 'Another Movie',
+      genre: 'Comedy',
+      duration: 90,
+      rating: 7.5,
       releaseYear: 2025,
     };
   });
@@ -58,9 +66,9 @@ describe('MoviesController', () => {
 
   describe('findAll', () => {
     it('should return all movies', async () => {
-      jest.spyOn(service, 'findAll').mockResolvedValue([mockMovie]);
+      jest.spyOn(service, 'findAll').mockResolvedValue([mockMovie, anotherMockMovie]);
       const result = await controller.findAll();
-      expect(result).toEqual([mockMovie]);
+      expect(result).toEqual([mockMovie, anotherMockMovie]);
     });
   });
 
