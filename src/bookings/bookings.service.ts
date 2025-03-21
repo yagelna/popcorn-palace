@@ -2,9 +2,9 @@ import { Injectable, NotFoundException, ConflictException } from "@nestjs/common
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Booking } from "./entities/booking.entity";
-import { ShowtimesService } from "src/showtimes/showtimes.service";
+import { ShowtimesService } from "../showtimes/showtimes.service";
 import { CreateBookingDto } from "./dto/create-booking.dto";
-import { Showtime } from "src/showtimes/entities/showtime.entity";
+import { Showtime } from "../showtimes/entities/showtime.entity";
 
 @Injectable()
 export class BookingsService {
