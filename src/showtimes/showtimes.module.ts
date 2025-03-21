@@ -3,7 +3,7 @@ import { ShowtimesService } from './showtimes.service';
 import { ShowtimesController } from './showtimes.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Showtime } from './entities/showtime.entity';
-import { MoviesModule } from 'src/movies/movies.module';
+import { MoviesModule } from '../movies/movies.module';
 
 @Module({
   imports: [
