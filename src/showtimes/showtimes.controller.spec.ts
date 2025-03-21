@@ -38,6 +38,10 @@ describe('ShowtimesController', () => {
         service = module.get<ShowtimesService>(ShowtimesService);
     });
 
+    it('should be defined', () => {
+        expect(controller).toBeDefined();
+    });
+
     describe('create', () => {
         it('should call service.create and return the result', async () => {
             const createDto: CreateShowtimeDto = { ...mockShowtime };
