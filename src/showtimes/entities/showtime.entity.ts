@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
-import { Movie } from "src/movies/entities/movie.entity";
+import { Movie } from "../../movies/entities/movie.entity";
 import { Exclude } from "class-transformer";
 
 @Entity( { name: 'showtimes' } )
@@ -9,7 +9,7 @@ export class Showtime {
 
   @ManyToOne(() => Movie, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'movie' })
-  @Exclude({ toPlainOnly: true }) // לא להציג את האובייקט movie בפלט
+  @Exclude({ toPlainOnly: true })
   movie: Movie;
   
   @RelationId((showtime: Showtime) => showtime.movie)

@@ -4,8 +4,8 @@ import { LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, Repository, Not }
 import { Showtime } from "./entities/showtime.entity";
 import { CreateShowtimeDto } from "./dto/create-showtime.dto";
 import { UpdateShowtimeDto } from "./dto/update-showtime.dto";
-import { Movie } from "src/movies/entities/movie.entity";
-import { MoviesService } from "src/movies/movies.service";
+import { Movie } from "../movies/entities/movie.entity";
+import { MoviesService } from "../movies/movies.service";
 
 @Injectable()
 export class ShowtimesService {
