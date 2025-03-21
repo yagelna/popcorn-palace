@@ -13,6 +13,7 @@ import { Booking } from './bookings/entities/booking.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
@@ -27,7 +28,8 @@ import { Booking } from './bookings/entities/booking.entity';
         database: config.get('DB_NAME'),
         entities: [Movie, Showtime, Booking],
         synchronize: true,
-        logging: true, //  production: false
+        dropSchema: process.env.NODE_ENV === 'test', 
+        logging: ['error'],
       }),
     }),
     MoviesModule,

@@ -10,3 +10,14 @@ services:
       - target: 5432
         published: 5433
         protocol: tcp
+  db_test:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: popcorn-palace
+      POSTGRES_PASSWORD: popcorn-palace
+      POSTGRES_DB: popcorn-palace-test
+    ports:
+      - target: 5432
+        published: 5434
+        protocol: tcp
