@@ -105,6 +105,19 @@ describe('MoviesService', () => {
     });
   });
 
+  describe('findOneByTitle', () => {
+    it('should return a movie by title', async () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockMovie);
+      const result = await service.findOneByTitle(mockMovie.title);
+      expect(result).toEqual(mockMovie);
+    });
+
+    it('should throw NotFoundException if movie title does not exist', async () => {
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
+      await expect(service.findOneByTitle('Nonexistent Movie')).rejects.toThrow(NotFoundException);
+    });
+  });
+
   describe('update', () => {
     it('should update an existing movie successfully', async () => {
       jest.spyOn(service, 'findOneByTitle').mockResolvedValue(mockMovie);
