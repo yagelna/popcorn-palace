@@ -1,4 +1,6 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+if (!globalThis.crypto) {
+  (global as any).crypto = require('crypto');
+}import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
